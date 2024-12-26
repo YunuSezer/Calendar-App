@@ -21,7 +21,10 @@ void checkReminders();
 void deleteReminder();
 void saveRemindersToFile();
 void loadRemindersFromFile();
+void showCalendarOption();
+void displayCalendar(int month, int year);
 
+// Hatýrlatýcýlarý dosyaya kaydet
 void saveRemindersToFile() {
     FILE *file = fopen("reminders.txt", "w");
     if (!file) {
@@ -39,6 +42,7 @@ void saveRemindersToFile() {
     printf("\nReminders saved successfully!\n");
 }
 
+// Hatýrlatýcýlarý dosyadan yükle
 void loadRemindersFromFile() {
     FILE *file = fopen("reminders.txt", "r");
     if (!file) {
@@ -58,6 +62,7 @@ void loadRemindersFromFile() {
     printf("\nReminders loaded successfully!\n");
 }
 
+// Hatýrlatýcý ekleme
 void addReminder() {
     if (reminderCount >= MAX_REMINDERS) {
         printf("\nReminder list is full!\n");
@@ -83,6 +88,7 @@ void addReminder() {
     saveRemindersToFile();
 }
 
+// Hatýrlatýcýlarý listeleme
 void listReminders() {
     if (reminderCount == 0) {
         printf("\nNo reminders saved!\n");
@@ -97,6 +103,7 @@ void listReminders() {
     }
 }
 
+// Hatýrlatýcý silme
 void deleteReminder() {
     if (reminderCount == 0) {
         printf("\nNo reminders to delete!\n");
@@ -123,6 +130,7 @@ void deleteReminder() {
     saveRemindersToFile();
 }
 
+// Hatýrlatýcý kontrol etme
 void checkReminders() {
     time_t now = time(NULL);
     struct tm *currentTime = localtime(&now);
@@ -146,6 +154,58 @@ void checkReminders() {
     }
 }
 
+// Takvim görüntüleme
+void displayCalendar(int month, int year) {
+    const char *months[] = {
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    };
+
+    int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    // Artýk yýl kontrolü
+    if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+        daysInMonth[1] = 29;
+    }
+
+    struct tm firstDay = {0};
+    firstDay.tm_mday = 1;
+    firstDay.tm_mon = month - 1; // tm_mon 0 tabanlýdýr
+    firstDay.tm_year = year - 1900; // tm_year 1900'den baþlar
+    mktime(&firstDay);
+
+    int startDay = firstDay.tm_wday; // Haftanýn ilk günü (0 = Pazar)
+
+    printf("\n    %s %d\n", months[month - 1], year);
+    printf("Su  Mo  Tu  We  Th  Fr  Sa\n");
+
+    for (int i = 0; i < startDay; i++) {
+        printf("    ");
+    }
+
+    for (int day = 1; day <= daysInMonth[month - 1]; day++) {
+        printf("%2d  ", day);
+
+        if ((day + startDay) % 7 == 0) {
+            printf("\n");
+        }
+    }
+    printf("\n");
+}
+
+void showCalendarOption() {
+    int month, year;
+    printf("\nEnter month and year (MM YYYY): ");
+    scanf("%d %d", &month, &year);
+
+    if (month < 1 || month > 12 || year < 1) {
+        printf("\nInvalid date!\n");
+        return;
+    }
+
+    displayCalendar(month, year);
+}
+
 int main() {
     int choice;
 
@@ -157,7 +217,8 @@ int main() {
         printf("2. List Reminders\n");
         printf("3. Delete Reminder\n");
         printf("4. Start Reminder Check\n");
-        printf("5. Exit\n");
+        printf("5. Show Calendar\n");
+        printf("6. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -179,6 +240,9 @@ int main() {
                 }
                 break;
             case 5:
+                showCalendarOption();
+                break;
+            case 6:
                 printf("\nExiting...\n");
                 saveRemindersToFile();
                 exit(0);
@@ -189,3 +253,5 @@ int main() {
 
     return 0;
 }
+
+
