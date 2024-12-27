@@ -7,6 +7,13 @@
 #define MAX_REMINDERS 100
 #define MAX_MESSAGE_LENGTH 100
 
+// Renk kodlarý
+#define RESET "\033[0m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+
 typedef struct {
     int day, month, year, hour, minute;
     char message[MAX_MESSAGE_LENGTH];
@@ -28,7 +35,7 @@ void displayCalendar(int month, int year);
 void saveRemindersToFile() {
     FILE *file = fopen("reminders.txt", "w");
     if (!file) {
-        printf("\nError: Could not save reminders to file.\n");
+        printf(RED "\nError: Could not save reminders to file.\n" RESET);
         return;
     }
 
@@ -39,14 +46,14 @@ void saveRemindersToFile() {
     }
 
     fclose(file);
-    printf("\nReminders saved successfully!\n");
+    printf(GREEN "\nReminders saved successfully!\n" RESET);
 }
 
 // Hatýrlatýcýlarý dosyadan yükle
 void loadRemindersFromFile() {
     FILE *file = fopen("reminders.txt", "r");
     if (!file) {
-        printf("\nNo saved reminders found. Starting fresh.\n");
+        printf(BLUE "\nNo saved reminders found. Starting fresh.\n" RESET);
         return;
     }
 
@@ -59,45 +66,45 @@ void loadRemindersFromFile() {
     }
 
     fclose(file);
-    printf("\nReminders loaded successfully!\n");
+    printf(GREEN "\nReminders loaded successfully!\n" RESET);
 }
 
 // Hatýrlatýcý ekleme
 void addReminder() {
     if (reminderCount >= MAX_REMINDERS) {
-        printf("\nReminder list is full!\n");
+        printf(RED "\nReminder list is full!\n" RESET);
         return;
     }
 
     Reminder newReminder;
 
-    printf("\nEnter the date for the reminder (DD MM YYYY): ");
+    printf(YELLOW "\nEnter the date for the reminder (DD MM YYYY): " RESET);
     scanf("%d %d %d", &newReminder.day, &newReminder.month, &newReminder.year);
 
-    printf("Enter the time for the reminder (HH MM): ");
+    printf(YELLOW "Enter the time for the reminder (HH MM): " RESET);
     scanf("%d %d", &newReminder.hour, &newReminder.minute);
 
-    printf("Enter the message: ");
+    printf(YELLOW "Enter the message: " RESET);
     getchar(); // Input buffer temizle
     fgets(newReminder.message, MAX_MESSAGE_LENGTH, stdin);
     newReminder.message[strcspn(newReminder.message, "\n")] = 0; // Yeni satýrý kaldýr
 
     reminders[reminderCount++] = newReminder;
 
-    printf("\nReminder added successfully!\n");
+    printf(GREEN "\nReminder added successfully!\n" RESET);
     saveRemindersToFile();
 }
 
 // Hatýrlatýcýlarý listeleme
 void listReminders() {
     if (reminderCount == 0) {
-        printf("\nNo reminders saved!\n");
+        printf(RED "\nNo reminders saved!\n" RESET);
         return;
     }
 
-    printf("\nSaved reminders:\n");
+    printf(BLUE "\nSaved reminders:\n" RESET);
     for (int i = 0; i < reminderCount; i++) {
-        printf("%d. %02d/%02d/%04d %02d:%02d: %s\n", i + 1,
+        printf(GREEN "%d. %02d/%02d/%04d %02d:%02d: %s\n" RESET, i + 1,
                reminders[i].day, reminders[i].month, reminders[i].year,
                reminders[i].hour, reminders[i].minute, reminders[i].message);
     }
@@ -106,18 +113,18 @@ void listReminders() {
 // Hatýrlatýcý silme
 void deleteReminder() {
     if (reminderCount == 0) {
-        printf("\nNo reminders to delete!\n");
+        printf(RED "\nNo reminders to delete!\n" RESET);
         return;
     }
 
     listReminders();
 
     int index;
-    printf("\nEnter the number of the reminder to delete: ");
+    printf(YELLOW "\nEnter the number of the reminder to delete: " RESET);
     scanf("%d", &index);
 
     if (index < 1 || index > reminderCount) {
-        printf("\nInvalid selection!\n");
+        printf(RED "\nInvalid selection!\n" RESET);
         return;
     }
 
@@ -126,7 +133,7 @@ void deleteReminder() {
     }
     reminderCount--;
 
-    printf("\nReminder deleted successfully!\n");
+    printf(GREEN "\nReminder deleted successfully!\n" RESET);
     saveRemindersToFile();
 }
 
@@ -143,7 +150,7 @@ void checkReminders() {
             reminders[i].minute == currentTime->tm_min) {
 
             // Terminal bildirimi
-            printf("\nReminder: %s\n", reminders[i].message);
+            printf(GREEN "\nReminder: %s\n" RESET, reminders[i].message);
 
             // Masaüstü bildirimi
             MessageBox(NULL, reminders[i].message, "Reminder Alert", MB_OK | MB_ICONINFORMATION);
@@ -176,8 +183,8 @@ void displayCalendar(int month, int year) {
 
     int startDay = firstDay.tm_wday; // Haftanýn ilk günü (0 = Pazar)
 
-    printf("\n    %s %d\n", months[month - 1], year);
-    printf("Su  Mo  Tu  We  Th  Fr  Sa\n");
+    printf(BLUE "\n    %s %d\n" RESET, months[month - 1], year);
+    printf(BLUE "Su  Mo  Tu  We  Th  Fr  Sa\n" RESET);
 
     for (int i = 0; i < startDay; i++) {
         printf("    ");
@@ -195,11 +202,11 @@ void displayCalendar(int month, int year) {
 
 void showCalendarOption() {
     int month, year;
-    printf("\nEnter month and year (MM YYYY): ");
+    printf(YELLOW "\nEnter month and year (MM YYYY): " RESET);
     scanf("%d %d", &month, &year);
 
     if (month < 1 || month > 12 || year < 1) {
-        printf("\nInvalid date!\n");
+        printf(RED "\nInvalid date!\n" RESET);
         return;
     }
 
@@ -212,14 +219,14 @@ int main() {
     loadRemindersFromFile();
 
     while (1) {
-        printf("\n--- Reminder Application ---\n");
-        printf("1. Add Reminder\n");
-        printf("2. List Reminders\n");
-        printf("3. Delete Reminder\n");
-        printf("4. Start Reminder Check\n");
-        printf("5. Show Calendar\n");
-        printf("6. Exit\n");
-        printf("Enter your choice: ");
+        printf(RED "\n--- Reminder Application ---\n" RESET);
+        printf(RED "1. Add Reminder\n" RESET);
+        printf(RED "2. List Reminders\n" RESET);
+        printf(RED "3. Delete Reminder\n" RESET);
+        printf(RED "4. Start Reminder Check\n" RESET);
+        printf(RED "5. Show Calendar\n" RESET);
+        printf(RED "6. Exit\n" RESET);
+        printf(YELLOW "Enter your choice: " RESET);
         scanf("%d", &choice);
 
         switch (choice) {
@@ -233,7 +240,7 @@ int main() {
                 deleteReminder();
                 break;
             case 4:
-                printf("\nReminder checking started...\n");
+                printf(GREEN "\nReminder checking started...\n" RESET);
                 while (1) {
                     checkReminders();
                     Sleep(10000); // 10 saniyede bir kontrol
@@ -243,15 +250,13 @@ int main() {
                 showCalendarOption();
                 break;
             case 6:
-                printf("\nExiting...\n");
+                printf(GREEN "\nExiting...\n" RESET);
                 saveRemindersToFile();
                 exit(0);
             default:
-                printf("\nInvalid choice!\n");
+                printf(RED "\nInvalid choice!\n" RESET);
         }
     }
 
     return 0;
 }
-
-
