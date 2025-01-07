@@ -57,15 +57,16 @@ The **Calendar App** is a lightweight, command-line tool built in the C programm
 
 ## Screenshots/Demos
 - **Add Event**
-  
+  <img src="./images/addevent.png" alt="Add Event" align="left">
 - **View Calendar**
-  
+  <img src="./images/calendar.png" alt="View Calendar" align="left">
 - **Set Reminder** 
-  
+  <img src="./images/remindercheck.png" alt="Reminder" align="left">
 
 ## Future Improvements
 - Add support for more languages.
 - Develop a graphical user interface (GUI).
 - Run the app in the background with hiding CLI.
 - Include cloud storage for data synchronization.
+- MacOS support.
 
