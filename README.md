@@ -11,6 +11,8 @@
 ## Project Description
 The **Calendar App** is a lightweight, command-line tool built in the C programming language. It is designed to help users manage their schedules efficiently by providing features such as adding events, viewing a monthly calendar, setting reminders, and editing or deleting events. This project is developed as part of the Introduction to Software Engineering course.
 
+[Click here for the pdf file explaining our project in more detail.](https://github.com/YunuSezer/Calendar-App/blob/main/calender_reminder_app.pdf)
+
 ## Installation Instructions
 1. Clone the repository from GitHub:
    ```bash
@@ -28,7 +30,9 @@ The **Calendar App** is a lightweight, command-line tool built in the C programm
    ```bash
    ./calendar_app
    ```
-
+> [!NOTE]  
+> The above instructions is prepared assuming that you are using Windows. You can use the pull request tab for calling help.
+   
 ## Usage Guidelines
 - **Add Event**: Add a new event by specifying the date, time, and description.
 - **View Calendar**: View the calendar for a specific month, along with listed events.
@@ -37,12 +41,12 @@ The **Calendar App** is a lightweight, command-line tool built in the C programm
 - Follow the on-screen instructions in the command-line interface to navigate the app.
 
 ## Team Members
-- Abdulsamet Kocaağa
-- Bedirhan Dinçer
-- Erdem Doğan
-- Muhammed Yiğit Akyüz
-- Samet Berk Şengönül
-- Yunus Sezer Örünklü
+- [Abdulsamet Kocaağa](https://github.com/abdulsametkoccaga) - B2305.090126
+- [Bedirhan Dinçer](https://github.com/BedirhanDincer1) - B2305.090121
+- [Erdem Doğan](https://github.com/ErdemDogan55) - B2405.090172
+- [Muhammed Yiğit Akyüz](https://github.com/Mami122) - B2405.090057
+- [Samet Berk Şengönül](https://github.com/sametberksengonul) - B2305.090101
+- [Yunus Sezer Örünklü](https://github.com/YunuSezer) - B2405.090072
 
 ## Technical Stack
 - **Programming Language**: C
