@@ -40,6 +40,8 @@ The **Calendar App** is a lightweight, command-line tool built in the C programm
 - **Edit/Delete Events**: Update or remove existing events from the schedule.
 - Follow the on-screen instructions in the command-line interface to navigate the app.
 
+<img src="./ERDiagramofCalendarApp.png" alt="Add Event" align="left">
+
 ## Team Members
 - [Abdulsamet Kocaağa](https://github.com/abdulsametkoccaga) - B2305.090126
 - [Bedirhan Dinçer](https://github.com/BedirhanDincer1) - B2305.090121
